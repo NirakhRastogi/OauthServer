@@ -17,9 +17,9 @@ import java.util.UUID;
 @Table(name = "client_id_secret")
 public class ClientIdSecret {
 
-    @Id
-    private UUID id;
     private String userId;
+    @Id
+    private String clientId;
     private byte[] secret;
     private LocalDate expiresAt;
     private LocalDate createdAt;

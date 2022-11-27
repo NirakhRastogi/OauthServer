@@ -3,6 +3,7 @@ package com.oauth.server.OauthServerDemo.interceptor;
 import com.oauth.server.OauthServerDemo.config.Constants;
 import com.oauth.server.OauthServerDemo.config.SecurityContext;
 import com.oauth.server.OauthServerDemo.exception.InvalidCredentialsException;
+import com.oauth.server.OauthServerDemo.models.ClientIdSecret;
 import com.oauth.server.OauthServerDemo.models.User;
 import com.oauth.server.OauthServerDemo.repositories.ClientIdSecretRepository;
 import com.oauth.server.OauthServerDemo.utils.JwtUtil;
@@ -32,12 +33,12 @@ public class ClientIdSecretValidator implements HandlerInterceptor {
         if(Objects.nonNull(username) && Objects.nonNull(authorization) && Objects.isNull(SecurityContext.userContext.get())) {
             log.info("Processing started, {} ", this.getClass() );
             String token = validateAndReturnTokenFormat(authorization);
-            User user = isTokenValid(username, token);
+            ClientIdSecret user = isTokenValid(username, token);
             if (user == null) {
                 log.info("Processing completed, result failure, {} ", this.getClass() );
                 throw new InvalidCredentialsException("Either username or password is invalid.");
             } else {
-                SecurityContext.userContext.set(user);
+                SecurityContext.clientIdSecretContext.set(user);
                 log.info("Processing completed! result success, {} ", this.getClass() );
                 return true;
             }
@@ -53,10 +54,10 @@ public class ClientIdSecretValidator implements HandlerInterceptor {
         return authorization.split(" ")[1];
     }
 
-    public User isTokenValid(String username, String token) {
+    public ClientIdSecret isTokenValid(String username, String token) {
         try {
-            User user = this.usersRepository.findOneByUserId(username);
-            Claims claims = JwtUtil.decodeJwt(token, user.getSalt());
+            ClientIdSecret user = this.usersRepository.findOneByClientId(username);
+            Claims claims = JwtUtil.decodeJwt(token, user.getSecret());
             if(LocalDate.now().isBefore(LocalDate.from(claims.getExpiration().toInstant()))){
                 throw new InvalidCredentialsException("Token is expired. Please create a new token.");
             }

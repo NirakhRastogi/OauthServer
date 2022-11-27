@@ -5,6 +5,7 @@ import com.oauth.server.OauthServerDemo.config.SecurityContext;
 import com.oauth.server.OauthServerDemo.exception.InvalidCredentialsException;
 import com.oauth.server.OauthServerDemo.models.User;
 import com.oauth.server.OauthServerDemo.repositories.ClientIdSecretRepository;
+import com.oauth.server.OauthServerDemo.repositories.UsersRepository;
 import com.oauth.server.OauthServerDemo.utils.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.Objects;
 @Slf4j
 public class UsernamePasswordTokenValidator implements HandlerInterceptor {
 
-    private final ClientIdSecretRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

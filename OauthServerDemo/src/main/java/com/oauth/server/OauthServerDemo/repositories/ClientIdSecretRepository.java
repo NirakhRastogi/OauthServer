@@ -5,9 +5,12 @@ import com.oauth.server.OauthServerDemo.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ClientIdSecretRepository extends JpaRepository<ClientIdSecret, String> {
 
-    User findOneByUserId(String userId);
+    List<ClientIdSecret> findAllByUserId(String userId);
+    ClientIdSecret findOneByClientId(String clientId);
 
 }
