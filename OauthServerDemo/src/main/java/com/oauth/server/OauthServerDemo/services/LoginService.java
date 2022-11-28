@@ -34,7 +34,7 @@ public class LoginService {
     }
 
     public String exchangeUsernameAndPassword(User user){
-        return JwtUtil.generateJWTToken(user);
+        return "BEARER " + JwtUtil.generateJWTToken(user);
     }
 
 }

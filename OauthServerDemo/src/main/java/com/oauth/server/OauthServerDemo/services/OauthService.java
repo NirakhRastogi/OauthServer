@@ -58,17 +58,13 @@ public class OauthService {
 
     }
 
-    public ResponseEntity<List<String>> redirectUserToLogin(String clientId, RedirectRequest redirectRequest) {
+    public ResponseEntity<String> redirectUserToLogin(String clientId, RedirectRequest redirectRequest) {
 
         User authUser = SecurityContext.userContext.get();
         ClientIdSecret clientUser = this.clientIdSecretRepository.findOneByClientId(clientId);
 
         return ResponseEntity
-        .status(HttpStatus.MOVED_PERMANENTLY)
-        .header(Constants.X_LOCATION, redirectRequest.getRedirectUrl() + "?accessToken=" + UUID.randomUUID())
-//        .header("Access-Control-Allow-Origin","*")
-//        .header("Access-Control-Allow-Methods","GET, POST, PATCH, PUT, DELETE, OPTIONS")
-//        .header("Access-Control-Allow-Headers","Origin, Content-Type, X-Auth-Token")
-        .build();
+        .status(HttpStatus.OK)
+        .body(redirectRequest.getRedirectUrl() + "?accessToken=" + UUID.randomUUID());
     }
 }

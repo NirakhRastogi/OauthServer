@@ -30,7 +30,7 @@ public class OauthResource {
     }
 
     @PostMapping("/access-token")
-    public ResponseEntity<List<String>> redirectUserToLogin(@RequestHeader(value = Constants.X_CLIENT_ID) String clientId,
+    public ResponseEntity<String> redirectUserToLogin(@RequestHeader(value = Constants.X_CLIENT_ID) String clientId,
                                                             @RequestHeader(value = Constants.X_AUTHORIZATION) String password,
                                                             @RequestHeader(value = Constants.X_USER_NAME) String username,
                                                             @RequestBody RedirectRequest redirectRequest) {
